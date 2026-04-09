@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="dark">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Open Leaf — Entrar</title>
+  <link rel="stylesheet" href="style.css"/>
+ <link rel="manifest" href="/manifest.json">
+ <meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Open Leaf">
+  <meta name="theme-color" content="#0a0806"/>
+  <meta name="mobile-web-app-capable" content="yes"/>
+  <meta name="apple-mobile-web-app-capable" content="yes"/>
+  <meta name="apple-mobile-web-app-title" content="Open Leaf"/>
+  <link rel="apple-touch-icon" href="icon-192.png"/>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,500;0,700;1,300;1,500&family=Jost:wght@300;400;500&display=swap" rel="stylesheet"/>
+</head>
+<body class="login-page">
+
+  <div class="login-split">
+
+    <!-- ESQUERDO: visual -->
+    <div class="login-visual">
+      <div class="lv-bg"></div>
+      <div class="lv-content">
+        <img src="imagens/open logo.png" alt="Open Leaf" class="lv-logo" onerror="this.src='imagens/open logo.png'"/>
+        <h1 class="lv-name">Open Leaf</h1>
+        <p class="lv-tagline">Sua biblioteca digital,<br/>em qualquer lugar.</p>
+        <div class="lv-stats">
+          <div class="lv-stat"><strong>10k+</strong><span>Livros</span></div>
+          <div class="lv-div"></div>
+          <div class="lv-stat"><strong>500+</strong><span>Autores</span></div>
+          <div class="lv-div"></div>
+          <div class="lv-stat"><strong>2</strong><span>Idiomas</span></div>
+        </div>
+      </div>
+      <blockquote class="lv-quote">
+        <p>"Um leitor vive mil vidas antes de morrer."</p>
+        <cite>— George R.R. Martin</cite>
+      </blockquote>
+    </div>
+
+    <!-- DIREITO: form -->
+    <div class="login-form-side">
+      <div class="lfs-top">
+        <button class="ctrl-pill" onclick="toggleTheme()"><span class="theme-icon">🌙</span> <span data-pt="Tema" data-en="Theme">Tema</span></button>
+        <button class="ctrl-pill" onclick="toggleLang()"><span id="langLabel">PT</span></button>
+      </div>
+
+      <div class="lfs-brand">
+        <img src="imagens/open logo.png" alt="Open Leaf" class="lfs-logo"/>
+        <span>Open Leaf</span>
+      </div>
+
+      <div class="auth-tabs">
+        <button class="at-tab active" id="tabLogin" onclick="showTab('login')" data-pt="Entrar" data-en="Log in">Entrar</button>
+        <button class="at-tab" id="tabReg" onclick="showTab('register')" data-pt="Cadastrar" data-en="Register">Cadastrar</button>
+      </div>
+
+      <!-- LOGIN -->
+      <form class="auth-form" id="formLogin" onsubmit="handleLogin(event)">
+        <h2 class="af-title" data-pt="Bem-vindo de volta" data-en="Welcome back">Bem-vindo de volta</h2>
+        <p class="af-sub" data-pt="Entre para continuar lendo" data-en="Sign in to continue reading">Entre para continuar lendo</p>
+        <div class="af-field">
+          <label data-pt="E-mail" data-en="Email">E-mail</label>
+          <div class="af-input-wrap">
+            <svg class="af-icon" viewBox="0 0 20 16" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="1" y="1" width="18" height="14" rx="2"/><polyline points="1,1 10,9 19,1"/></svg>
+            <input type="email" id="loginEmail" placeholder="seu@email.com" required autocomplete="email"/>
+          </div>
+        </div>
+        <div class="af-field">
+          <div class="af-label-row">
+            <label data-pt="Senha" data-en="Password">Senha</label>
+            <a href="#" class="af-forgot" data-pt="Esqueceu?" data-en="Forgot?">Esqueceu?</a>
+          </div>
+          <div class="af-input-wrap">
+            <svg class="af-icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="4" y="9" width="12" height="9" rx="1.5"/><path d="M7 9V6.5a3 3 0 016 0V9"/></svg>
+            <input type="password" id="loginPw" placeholder="••••••••" required autocomplete="current-password"/>
+            <button type="button" class="af-eye" onclick="togglePw('loginPw', this)">
+              <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.4" width="16" height="16"><path d="M1 10s3-6 9-6 9 6 9 6-3 6-9 6-9-6-9-6z"/><circle cx="10" cy="10" r="2.5"/></svg>
+            </button>
+          </div>
+        </div>
+        <button type="submit" class="btn-auth">
+          <span data-pt="Entrar na conta" data-en="Sign in">Entrar na conta</span>
+        </button>
+        <div class="af-msg hidden" id="loginMsg"></div>
+      </form>
+
+      <!-- CADASTRO -->
+      <form class="auth-form hidden" id="formReg" onsubmit="handleRegister(event)">
+        <h2 class="af-title" data-pt="Criar conta" data-en="Create account">Criar conta</h2>
+        <p class="af-sub" data-pt="Junte-se a milhares de leitores" data-en="Join thousands of readers">Junte-se a milhares de leitores</p>
+        <div class="af-field">
+          <label data-pt="Nome completo" data-en="Full name">Nome completo</label>
+          <div class="af-input-wrap">
+            <svg class="af-icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="10" cy="7" r="3.5"/><path d="M3 18c0-3.866 3.134-6 7-6s7 2.134 7 6"/></svg>
+            <input type="text" id="regName" placeholder="Seu nome" required autocomplete="name"/>
+          </div>
+        </div>
+        <div class="af-field">
+          <label data-pt="E-mail" data-en="Email">E-mail</label>
+          <div class="af-input-wrap">
+            <svg class="af-icon" viewBox="0 0 20 16" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="1" y="1" width="18" height="14" rx="2"/><polyline points="1,1 10,9 19,1"/></svg>
+            <input type="email" id="regEmail" placeholder="seu@email.com" required autocomplete="email"/>
+          </div>
+        </div>
+        <div class="af-field">
+          <label data-pt="Senha" data-en="Password">Senha</label>
+          <div class="af-input-wrap">
+            <svg class="af-icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="4" y="9" width="12" height="9" rx="1.5"/><path d="M7 9V6.5a3 3 0 016 0V9"/></svg>
+            <input type="password" id="regPw" placeholder="Mínimo 6 caracteres" required minlength="6" autocomplete="new-password"/>
+            <button type="button" class="af-eye" onclick="togglePw('regPw', this)">
+              <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.4" width="16" height="16"><path d="M1 10s3-6 9-6 9 6 9 6-3 6-9 6-9-6-9-6z"/><circle cx="10" cy="10" r="2.5"/></svg>
+            </button>
+          </div>
+        </div>
+        <button type="submit" class="btn-auth">
+          <span data-pt="Criar minha conta" data-en="Create my account">Criar minha conta</span>
+        </button>
+        <div class="af-msg hidden" id="regMsg"></div>
+      </form>
+
+      <p class="lfs-footer">© 2025 Open Leaf · Todos os direitos reservados</p>
+    </div>
+  </div>
+
+  <script src="lang.js"></script>
+  <script src="theme.js"></script>
+  <script>
+    // Aplica tema salvo
+    (function(){
+      const t = localStorage.getItem('ol_theme') || 'dark';
+      document.documentElement.setAttribute('data-theme', t);
+    })();
+
+    function showTab(tab) {
+      document.getElementById('formLogin').classList.toggle('hidden', tab !== 'login');
+      document.getElementById('formReg').classList.toggle('hidden', tab !== 'register');
+      document.getElementById('tabLogin').classList.toggle('active', tab === 'login');
+      document.getElementById('tabReg').classList.toggle('active', tab !== 'login');
+    }
+
+    function togglePw(id, btn) {
+      const el = document.getElementById(id);
+      el.type = el.type === 'password' ? 'text' : 'password';
+    }
+
+    function showMsg(id, tipo, texto) {
+      const el = document.getElementById(id);
+      el.className = 'af-msg ' + tipo;
+      el.textContent = texto;
+    }
+
+    // ── LOGIN ──────────────────────────────────────────────────
+    async function handleLogin(e) {
+      e.preventDefault();
+      const email = document.getElementById('loginEmail').value.trim();
+      const senha = document.getElementById('loginPw').value;
+      showMsg('loginMsg', 'loading', 'Entrando...');
+
+      try {
+        // Tenta API (MongoDB)
+        const res  = await fetch('/api/auth/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, senha })
+        });
+        const data = await res.json();
+
+        if (!res.ok) {
+          showMsg('loginMsg', 'error', '✕ ' + data.erro);
+          return;
+        }
+
+        // Salva usuário e redireciona
+        localStorage.setItem('ol_user', JSON.stringify(data.usuario));
+        showMsg('loginMsg', 'success', '✓ Bem-vindo! Redirecionando...');
+        setTimeout(() => window.location.href = 'biblioteca.html', 600);
+
+      } catch (err) {
+        // Se o servidor não estiver rodando, usa modo demo local
+        const users = JSON.parse(localStorage.getItem('ol_users_local') || '[]');
+        const user  = users.find(u => u.email === email && u.senha === senha);
+
+        if (user) {
+          localStorage.setItem('ol_user', JSON.stringify({ id: user.id, nome: user.nome, email: user.email }));
+          showMsg('loginMsg', 'success', '✓ Bem-vindo! Redirecionando...');
+          setTimeout(() => window.location.href = 'biblioteca.html', 600);
+        } else {
+          showMsg('loginMsg', 'error', '✕ E-mail ou senha incorretos.');
+        }
+      }
+    }
+
+    // ── CADASTRO ───────────────────────────────────────────────
+    async function handleRegister(e) {
+      e.preventDefault();
+      const nome  = document.getElementById('regName').value.trim();
+      const email = document.getElementById('regEmail').value.trim();
+      const senha = document.getElementById('regPw').value;
+      showMsg('regMsg', 'loading', 'Criando conta...');
+
+      try {
+        const res  = await fetch('/api/auth/register', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ nome, email, senha })
+        });
+        const data = await res.json();
+
+        if (!res.ok) {
+          showMsg('regMsg', 'error', '✕ ' + data.erro);
+          return;
+        }
+
+        localStorage.setItem('ol_user', JSON.stringify(data.usuario));
+        showMsg('regMsg', 'success', '✓ Conta criada! Redirecionando...');
+        setTimeout(() => window.location.href = 'biblioteca.html', 800);
+
+      } catch (err) {
+        // Modo demo local
+        const users = JSON.parse(localStorage.getItem('ol_users_local') || '[]');
+        if (users.find(u => u.email === email)) {
+          showMsg('regMsg', 'error', '✕ E-mail já cadastrado.');
+          return;
+        }
+        const novoUser = { id: Date.now().toString(), nome, email, senha };
+        users.push(novoUser);
+        localStorage.setItem('ol_users_local', JSON.stringify(users));
+        localStorage.setItem('ol_user', JSON.stringify({ id: novoUser.id, nome, email }));
+        showMsg('regMsg', 'success', '✓ Conta criada! Redirecionando...');
+        setTimeout(() => window.location.href = 'biblioteca.html', 800);
+      }
+    }
+  </script>
+  <script>
+  // Registrar Service Worker (PWA)
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('/sw.js')
+        .then(reg => console.log('✅ SW registrado:', reg))
+        .catch(err => console.log('❌ Erro SW:', err));
+    });
+  }
+</script>
+</body>
+</html>

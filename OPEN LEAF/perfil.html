@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="dark">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Open Leaf — Perfil</title>
+  <link rel="stylesheet" href="style.css"/>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Open Leaf">
+  <link rel="manifest" href="manifest.json"/>
+  <meta name="theme-color" content="#0a0806"/>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,500;0,700;1,300;1,500&family=Jost:wght@300;400;500&display=swap" rel="stylesheet"/>
+</head>
+<body>
+<nav class="nav">
+  <a href="biblioteca.html" class="nav-brand"><img src="imagens/open logo.png" class="nav-brand-logo" alt=""/><span class="nav-brand-name">Open Leaf</span></a>
+  <div class="nav-actions">
+    <button class="nav-icon-btn" onclick="toggleTheme()"><span class="theme-icon">🌙</span></button>
+    <button class="nav-icon-btn nav-lang" onclick="toggleLang()"><span id="langLabel">PT</span></button>
+    <a href="loja.html" class="nav-icon-btn"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" width="18" height="18"><path d="M1 1h2l2.5 10h10l2-7H5"/><circle cx="8.5" cy="17" r="1.5"/><circle cx="15.5" cy="17" r="1.5"/></svg><span class="cart-badge" id="cartBadge">0</span></a>
+    <a href="perfil.html" class="nav-avatar-btn" id="navAvatar">U</a>
+  </div>
+</nav>
+
+<div class="layout">
+  <aside class="sidebar">
+    <a href="biblioteca.html" class="sb-item" data-tip="Biblioteca"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" width="20" height="20"><rect x="3" y="2" width="4" height="16" rx="1"/><rect x="9" y="5" width="4" height="13" rx="1"/><rect x="15" y="3" width="2" height="15" rx="1"/></svg><span>Acervo</span></a>
+    <a href="loja.html" class="sb-item" data-tip="Loja"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" width="20" height="20"><path d="M1 1h2l2.5 10h10l2-7H5"/><circle cx="8.5" cy="17" r="1.5"/><circle cx="15.5" cy="17" r="1.5"/></svg><span>Loja</span></a>
+    <a href="biblioteca.html#favoritos" class="sb-item" data-tip="Favoritos"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" width="20" height="20"><path d="M10 17s-7-4.35-7-9a5 5 0 0110 0 5 5 0 0110 0c0 4.65-7 9-7 9z"/></svg><span>Favs</span></a>
+    <a href="perfil.html" class="sb-item active" data-tip="Perfil"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" width="20" height="20"><circle cx="10" cy="7" r="4"/><path d="M3 18c0-3.866 3.134-6 7-6s7 2.134 7 6"/></svg><span>Perfil</span></a>
+  </aside>
+
+  <main class="content">
+    <div class="profile-page">
+
+      <div class="profile-hero">
+        <div class="profile-avatar-big" id="profAvatar">U</div>
+        <div class="profile-hero-info">
+          <h2 id="profName">Usuário</h2>
+          <p id="profEmail">—</p>
+          <span class="profile-member-badge" data-pt="Membro Premium" data-en="Premium Member">Membro Premium</span>
+        </div>
+      </div>
+
+      <div class="settings-card">
+        <h3 class="settings-card-title" data-pt="Configurações" data-en="Settings">Configurações</h3>
+
+        <div class="setting-row">
+          <div class="setting-label">
+            <strong data-pt="Tema" data-en="Theme">Tema</strong>
+            <small data-pt="Claro / Escuro" data-en="Light / Dark">Claro / Escuro</small>
+          </div>
+          <button class="toggle-switch" id="themeToggle" onclick="toggleTheme()"><div class="toggle-thumb"></div></button>
+        </div>
+
+        <div class="setting-row">
+          <div class="setting-label">
+            <strong data-pt="Idioma" data-en="Language">Idioma</strong>
+            <small>Português / English</small>
+          </div>
+          <div class="lang-btns">
+            <button class="lang-btn active" id="btnPT" onclick="setLang('pt')">PT</button>
+            <button class="lang-btn" id="btnEN" onclick="setLang('en')">EN</button>
+          </div>
+        </div>
+
+        <div class="setting-row">
+          <div class="setting-label">
+            <strong data-pt="Favoritos" data-en="Favorites">Favoritos</strong>
+            <small id="favCount">0 livros</small>
+          </div>
+          <a href="biblioteca.html#favoritos" class="setting-link" data-pt="Ver →" data-en="View →">Ver →</a>
+        </div>
+
+        <div class="setting-row">
+          <div class="setting-label">
+            <strong data-pt="Carrinho" data-en="Cart">Carrinho</strong>
+            <small id="cartCount">0 itens</small>
+          </div>
+          <a href="loja.html" class="setting-link" data-pt="Ver →" data-en="View →">Ver →</a>
+        </div>
+      </div>
+
+      <button class="btn-logout" onclick="sair()" data-pt="Sair da conta" data-en="Log out">Sair da conta</button>
+    </div>
+  </main>
+</div>
+
+<script src="lang.js"></script><script src="theme.js"></script><script src="cart.js"></script>
+<script>
+function carregarPerfil(){
+  const u=JSON.parse(localStorage.getItem('ol_user')||'{}');
+  const n=u.nome||'Usuário';
+  document.getElementById('profName').textContent=n;
+  document.getElementById('profEmail').textContent=u.email||'';
+  document.getElementById('profAvatar').textContent=n.charAt(0).toUpperCase();
+  const favs=JSON.parse(localStorage.getItem('ol_favs')||'[]');
+  const cart=JSON.parse(localStorage.getItem('ol_cart')||'[]');
+  document.getElementById('favCount').textContent=favs.length+' livros';
+  document.getElementById('cartCount').textContent=cart.length+' itens';
+  const tema=localStorage.getItem('ol_theme')||'dark';
+  document.getElementById('themeToggle').classList.toggle('on',tema==='light');
+  const lang=localStorage.getItem('ol_lang')||'pt';
+  document.getElementById('btnPT').classList.toggle('active',lang==='pt');
+  document.getElementById('btnEN').classList.toggle('active',lang==='en');
+}
+function sair(){ localStorage.removeItem('ol_user'); window.location.href='login.html'; }
+function setLang(l){ localStorage.setItem('ol_lang',l); location.reload(); }
+carregarPerfil();
+</script>
+<script>
+  // Registrar Service Worker (PWA)
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('/sw.js')
+        .then(reg => console.log('✅ SW registrado:', reg))
+        .catch(err => console.log('❌ Erro SW:', err));
+    });
+  }
+</script>
+</body>
+</html>

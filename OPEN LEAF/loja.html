@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="dark">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Open Leaf — Loja</title>
+  <link rel="stylesheet" href="style.css"/>
+ <link rel="manifest" href="/manifest.json">
+ <meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Open Leaf">
+  <meta name="theme-color" content="#0a0806"/>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,500;0,700;1,300;1,500&family=Jost:wght@300;400;500&display=swap" rel="stylesheet"/>
+</head>
+<body>
+<nav class="nav">
+  <a href="biblioteca.html" class="nav-brand"><img src="imagens/open logo.png" class="nav-brand-logo" alt=""/><span class="nav-brand-name">Open Leaf</span></a>
+  <div class="nav-actions">
+    <button class="nav-icon-btn theme-toggle-btn" onclick="toggleTheme()" title="Tema">
+      <svg class="theme-icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="18" height="18">
+        <circle cx="12" cy="12" r="5"/>
+        <line x1="12" y1="1" x2="12" y2="3"/>
+        <line x1="12" y1="21" x2="12" y2="23"/>
+        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+        <line x1="1" y1="12" x2="3" y2="12"/>
+        <line x1="21" y1="12" x2="23" y2="12"/>
+        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+      </svg>
+      <svg class="theme-icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="18" height="18">
+        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+      </svg>
+    </button>
+    <button class="nav-icon-btn nav-lang" onclick="toggleLang()"><span id="langLabel">PT</span></button>
+    <a href="loja.html" class="nav-icon-btn" style="border-color:var(--gold);color:var(--gold)">
+      <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" width="18" height="18">
+        <path d="M1 1h2l2.5 10h10l2-7H5"/>
+        <circle cx="8.5" cy="17" r="1.5"/>
+        <circle cx="15.5" cy="17" r="1.5"/>
+      </svg>
+      <span class="cart-badge" id="cartBadge">0</span>
+    </a>
+    <a href="perfil.html" class="nav-avatar-btn" id="navAvatar">U</a>
+  </div>
+</nav>
+
+<div class="layout">
+  <aside class="sidebar">
+    <a href="biblioteca.html" class="sb-item" data-tip="Biblioteca">
+      <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" width="20" height="20"><rect x="3" y="2" width="4" height="16" rx="1"/><rect x="9" y="5" width="4" height="13" rx="1"/><rect x="15" y="3" width="2" height="15" rx="1"/></svg>
+      <span>Acervo</span>
+    </a>
+    <a href="loja.html" class="sb-item active" data-tip="Loja">
+      <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" width="20" height="20"><path d="M1 1h2l2.5 10h10l2-7H5"/><circle cx="8.5" cy="17" r="1.5"/><circle cx="15.5" cy="17" r="1.5"/></svg>
+      <span>Loja</span>
+    </a>
+    <a href="biblioteca.html#favoritos" class="sb-item" data-tip="Favoritos">
+      <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" width="20" height="20"><path d="M10 17s-7-4.35-7-9a5 5 0 0110 0 5 5 0 0110 0c0 4.65-7 9-7 9z"/></svg>
+      <span>Favs</span>
+    </a>
+    <a href="perfil.html" class="sb-item" data-tip="Perfil">
+      <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" width="20" height="20"><circle cx="10" cy="7" r="4"/><path d="M3 18c0-3.866 3.134-6 7-6s7 2.134 7 6"/></svg>
+      <span>Perfil</span>
+    </a>
+  </aside>
+
+  <main class="content">
+    <div class="store-wrap">
+      <div>
+        <div class="section-header" style="margin-bottom:28px">
+          <h2 class="section-title" data-pt="Loja" data-en="Store">Loja</h2>
+          <span class="section-count" data-pt="Compre ou alugue" data-en="Buy or rent">Compre ou alugue</span>
+        </div>
+        <div class="store-grid" id="storeGrid"></div>
+      </div>
+
+      <!-- CARRINHO -->
+      <div class="cart-panel">
+        <h3 class="cart-panel-title" data-pt="Carrinho" data-en="Cart">Carrinho</h3>
+        <div class="cart-items-list" id="cartList">
+          <div class="cart-empty" id="cartEmpty">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2">
+              <path d="M6 2 3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/>
+              <line x1="3" y1="6" x2="21" y2="6"/>
+              <path d="M16 10a4 4 0 01-8 0"/>
+            </svg>
+            <p data-pt="Carrinho vazio" data-en="Empty cart">Carrinho vazio</p>
+          </div>
+        </div>
+        <div class="cart-footer" id="cartFooter" style="display:none">
+          <div class="cart-total">
+            <span data-pt="Total" data-en="Total">Total</span>
+            <strong id="cartTotal">R$ 0,00</strong>
+          </div>
+        <button class="btn-buy" onclick="finalizarCompra()" data-pt="Finalizar compra" data-en="Checkout">Finalizar compra</button>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<div class="toast" id="toast"></div>
+<script src="lang.js"></script><script src="theme.js"></script><script src="cart.js"></script>
+<script>
+// MAPA DE CAPAS DOS LIVROS
+const COVERS = {
+  it:         'imagens/It.jpg',
+  fnaf1:      'imagens/fnaf.jpg',
+  fnaf2:      'imagens/olhos prateados.jpg',
+  utopia:     'imagens/Utopia.jpg',
+  godzilla:   'imagens/godzilla.jpg',
+  banana:     'imagens/banana.jpg',
+  neymar:     'imagens/neymar.jpg',
+  lusiadas:   'imagens/lusiadas.jpg',
+  domcasmurro:'imagens/Dom casmurro.jpg',
+  futebol:    'imagens/Futebol hsitoria.jpg'
+};
+
+const LIVROS = [
+  {id:'it',         titulo:'IT — A Coisa',        autor:'Stephen King',       comprar:56.99, alugar:25.99},
+  {id:'fnaf1',      titulo:'FNAF: Fazbear Frights',autor:'Scott Cawthon',      comprar:42.99, alugar:18.99},
+  {id:'fnaf2',      titulo:'FNAF: Olhos Prateados',autor:'Scott Cawthon',      comprar:39.99, alugar:16.99},
+  {id:'utopia',     titulo:'Utopia',               autor:'Thomas More',        comprar:34.99, alugar:14.99},
+  {id:'godzilla',   titulo:'Godzilla',             autor:'Shigeru Kayama',     comprar:29.99, alugar:11.99},
+  {id:'banana',     titulo:'Diário de um Banana',  autor:'Jeff Kinney',        comprar:32.99, alugar:12.99},
+  {id:'neymar',     titulo:'Neymar',               autor:'Ivan Rodrigues',     comprar:44.99, alugar:19.99},
+  {id:'lusiadas',   titulo:'Os Lusíadas',          autor:'Luís Vaz de Camões', comprar:24.99, alugar:9.99},
+  {id:'domcasmurro',titulo:'Dom Casmurro',         autor:'Machado de Assis',   comprar:19.99, alugar:7.99},
+  {id:'futebol',    titulo:'História do Futebol',  autor:'Max Raillier',       comprar:37.99, alugar:15.99},
+];
+
+function fmt(v){ return 'R$ '+v.toFixed(2).replace('.',','); }
+
+function renderStore(){
+  document.getElementById('storeGrid').innerHTML = LIVROS.map(l => {
+    const coverUrl = COVERS[l.id] || 'imagens/open logo.png';
+    return `
+    <div class="store-card">
+      <div class="store-card-cover" onclick="location='detalhes.html?id=${l.id}'">
+        <img src="${coverUrl}" alt="${l.titulo}" onerror="this.src='imagens/open logo.png'"/>
+      </div>
+      <div class="store-card-info">
+        <h4>${l.titulo}</h4>
+        <p>${l.autor}</p>
+        <div class="store-btns">
+          <button class="s-btn-buy" onclick="addItem('${l.id}','buy',${l.comprar},'${l.titulo}')">Comprar<br/>${fmt(l.comprar)}</button>
+          <button class="s-btn-rent" onclick="addItem('${l.id}','rent',${l.alugar},'${l.titulo}')">Alugar<br/>${fmt(l.alugar)}</button>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function addItem(id, tipo, preco, titulo){
+  const c = JSON.parse(localStorage.getItem('ol_cart')||'[]');
+  if(!c.find(x=>x.id===id && x.tipo===tipo)) {
+    c.push({id, titulo, tipo, preco});
+  }
+  localStorage.setItem('ol_cart', JSON.stringify(c));
+  atualizarBadge(); 
+  renderCart();
+  showToast(tipo==='buy' ? 'Adicionado ao carrinho!' : 'Alugado por 30 dias!');
+}
+
+function renderCart(){
+  const c = JSON.parse(localStorage.getItem('ol_cart')||'[]');
+  const list = document.getElementById('cartList');
+  const empty = document.getElementById('cartEmpty');
+  const footer = document.getElementById('cartFooter');
+  
+  if(!c.length){ 
+    empty.style.display = 'flex'; 
+    footer.style.display = 'none'; 
+    list.innerHTML = ''; 
+    list.appendChild(empty); 
+    return; 
+  }
+  
+  empty.style.display = 'none'; 
+  footer.style.display = 'flex';
+  const total = c.reduce((s,x)=>s+x.preco,0);
+  document.getElementById('cartTotal').textContent = fmt(total);
+  
+  list.innerHTML = c.map((x,i)=>`
+    <div class="cart-item">
+      <div class="cart-item-cover">
+        <img src="${COVERS[x.id] || 'imagens/open logo.png'}" alt="" onerror="this.src='imagens/open logo.png'"/>
+      </div>
+      <div class="cart-item-info">
+        <strong>${x.titulo}</strong>
+        <span>${x.tipo==='buy' ? 'Compra' : 'Aluguel'}</span>
+      </div>
+      <span class="cart-item-price">${fmt(x.preco)}</span>
+      <button class="cart-remove" onclick="removeItem(${i})">✕</button>
+    </div>
+  `).join('');
+}
+
+function removeItem(i){ 
+  const c = JSON.parse(localStorage.getItem('ol_cart')||'[]'); 
+  c.splice(i,1); 
+  localStorage.setItem('ol_cart', JSON.stringify(c)); 
+  atualizarBadge(); 
+  renderCart(); 
+}
+
+function finalizar(){ 
+  localStorage.removeItem('ol_cart'); 
+  atualizarBadge(); 
+  renderCart(); 
+  showToast('Compra finalizada! Obrigado!'); 
+}
+
+function showToast(msg){ 
+  const t = document.getElementById('toast'); 
+  t.textContent = msg; 
+  t.classList.add('show'); 
+  setTimeout(()=>t.classList.remove('show'), 2800); 
+}
+
+renderStore(); 
+renderCart();
+</script>
+<script>
+  // Registrar Service Worker (PWA)
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('/sw.js')
+        .then(reg => console.log('✅ SW registrado:', reg))
+        .catch(err => console.log('❌ Erro SW:', err));
+    });
+  }
+</script>
+</body>
+</html>

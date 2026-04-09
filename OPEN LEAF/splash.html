@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="dark">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Open Leaf">
+  <title>Open Leaf</title>
+  <link rel="stylesheet" href="style.css"/>
+  <link rel="manifest" href="manifest.json"/>
+  <meta name="theme-color" content="#0a0806"/>
+  <meta name="mobile-web-app-capable" content="yes"/>
+  <meta name="apple-mobile-web-app-capable" content="yes"/>
+  <meta name="apple-mobile-web-app-title" content="Open Leaf"/>
+  <link rel="apple-touch-icon" href="icon-192.png"/>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,500;0,700;1,300;1,500&family=Jost:wght@300;400;500&display=swap" rel="stylesheet"/>
+</head>
+<body class="splash-body">
+  <div class="splash-screen">
+    <div class="splash-inner">
+      <img src="imagens/open logo.png" alt="Open Leaf" class="splash-logo"/>
+      <div class="splash-bar-wrap">
+        <div class="splash-bar" id="splashBar"></div>
+      </div>
+      <p class="splash-loading" data-pt="Carregando sua biblioteca..." data-en="Loading your library...">Carregando sua biblioteca...</p>
+    </div>
+  </div>
+
+  <script>
+    (function(){
+      const t = localStorage.getItem('ol_theme') || 'dark';
+      document.documentElement.setAttribute('data-theme', t);
+    })();
+
+    let w = 0;
+    const bar = document.getElementById('splashBar');
+    const iv = setInterval(() => {
+      w += Math.random() * 20;
+      if (w > 100) w = 100;
+      bar.style.width = w + '%';
+      if (w >= 100) {
+        clearInterval(iv);
+        setTimeout(() => {
+          const user = localStorage.getItem('ol_user');
+          window.location.href = user ? 'biblioteca.html' : 'login.html';
+        }, 350);
+      }
+    }, 70);
+
+    // Registra PWA
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('service-worker.js')
+        .then(() => console.log('[PWA] SW registrado!'))
+        .catch(e => console.warn('[PWA]', e));
+        
+    }
+    
+  </script>
+  <script>
+  // Registrar Service Worker (PWA)
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('/sw.js')
+        .then(reg => console.log('✅ SW registrado:', reg))
+        .catch(err => console.log('❌ Erro SW:', err));
+    });
+  }
+</script>
+</body>
+</html>
